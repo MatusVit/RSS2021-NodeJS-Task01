@@ -11,11 +11,15 @@ exports.getTransformStream = (cipherCode) => {
     case "C1":
       cipherFunction = (chunk) => caesarCipher(chunk, 1);
       break;
-
+    case "R0":
+      cipherFunction = (chunk) => caesarCipher(chunk, -8);
+      break;
+    case "R1":
+      cipherFunction = (chunk) => caesarCipher(chunk, 8);
+      break;
     case "A":
       cipherFunction = atbashCipher;
       break;
-
     default:
       break;
   }
