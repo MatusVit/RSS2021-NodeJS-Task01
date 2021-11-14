@@ -1,4 +1,5 @@
 const { Transform } = require("stream");
+const atbashCipher = require("../ciphers/atbashCipher");
 const caesarCipher = require("../ciphers/caesarCipher");
 
 exports.getTransformStream = (cipherCode) => {
@@ -9,6 +10,10 @@ exports.getTransformStream = (cipherCode) => {
       break;
     case "C1":
       cipherFunction = (chunk) => caesarCipher(chunk, 1);
+      break;
+
+    case "A":
+      cipherFunction = atbashCipher;
       break;
 
     default:

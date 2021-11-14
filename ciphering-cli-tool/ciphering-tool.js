@@ -31,7 +31,7 @@ if (checkArguments(argsObject)) {
     getTransformStream(cipherCode)
   );
 
-  console.log(">>>> transformStreamArray=", transformStreamArray);
+  // console.log(">>>> transformStreamArray=", transformStreamArray);
 
   pipeline(inputStream, ...transformStreamArray, outputStream, (error) => {
     if (error) {
