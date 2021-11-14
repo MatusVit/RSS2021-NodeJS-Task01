@@ -17,6 +17,10 @@ exports.getArgsObject = ({ alias }) => {
         Object.values(alias).includes(fullName) &&
         !isOption(array[index + 1])
       ) {
+        if (argsObject[fullName])
+          this.closeWithError(
+            `Invalid option. Argument --${fullName} is duplicated`
+          );
         argsObject[fullName] = array[index + 1];
       }
     } else {
@@ -25,6 +29,10 @@ exports.getArgsObject = ({ alias }) => {
         Object.keys(alias).includes(aliasKey) &&
         !isOption(array[index + 1])
       ) {
+        if (argsObject[alias[aliasKey]])
+          this.closeWithError(
+            `Invalid option. Argument -${aliasKey} is duplicated`
+          );
         argsObject[alias[aliasKey]] = array[index + 1];
       }
     }
