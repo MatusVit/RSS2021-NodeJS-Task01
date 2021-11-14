@@ -1,0 +1,11 @@
+{
+  "name": "ciphering-cli-tool",
+  "version": "1.0.0",
+  "description": "RSS2021-NodeJS  Task 1. Ciphering CLI tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MatVi",
+  "license": "ISC"
+}

@@ -1,0 +1,37 @@
+const { Transform } = require("stream");
+const atbashCipher = require("../ciphers/atbashCipher");
+const caesarCipher = require("../ciphers/caesarCipher");
+
+exports.getTransformStream = (cipherCode) => {
+  let cipherFunction = () => {};
+  switch (cipherCode) {
+    case "C0":
+      cipherFunction = (chunk) => caesarCipher(chunk, -1);
+      break;
+    case "C1":
+      cipherFunction = (chunk) => caesarCipher(chunk, 1);
+      break;
+    case "R0":
+      cipherFunction = (chunk) => caesarCipher(chunk, -8);
+      break;
+    case "R1":
+      cipherFunction = (chunk) => caesarCipher(chunk, 8);
+      break;
+    case "A":
+      cipherFunction = atbashCipher;
+      break;
+    default:
+      break;
+  }
+
+  const transformStream = new Transform({
+    transform(chunk, encoding, callback) {
+      const chunkStringified = chunk.toString().trim();
+      const newChunk = cipherFunction(chunkStringified);
+      this.push(newChunk + "\n");
+      callback();
+    },
+  });
+
+  return transformStream;
+};
