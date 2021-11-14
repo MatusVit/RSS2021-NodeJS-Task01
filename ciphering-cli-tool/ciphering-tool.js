@@ -2,6 +2,7 @@ const fs = require("fs");
 const { get } = require("http");
 // const minimist = require("minimist");
 const { pipeline } = require("stream");
+const { getTransformStream } = require("./streams/getTransformStream");
 
 const checkArguments = require("./utils/checkArguments");
 const { closeWithError, getArgsObject } = require("./utils/utils");
@@ -23,10 +24,16 @@ if (checkArguments(argsObject)) {
     ? fs.createWriteStream(output, { flags: "a+" })
     : process.stdout;
 
-  // const cipherTransformer = new CipherTransformer();
-  const transformStreamArray = [];
+  const configArray = config.split("-");
+  console.log(">>>> configArray=", configArray);
 
-  pipeline(inputStream, outputStream, (error) => {
+  const transformStreamArray = configArray.map((cipherCode) =>
+    getTransformStream(cipherCode)
+  );
+
+  console.log(">>>> transformStreamArray=", transformStreamArray);
+
+  pipeline(inputStream, ...transformStreamArray, outputStream, (error) => {
     if (error) {
       closeWithError(error.message);
     } else console.log("Done!");

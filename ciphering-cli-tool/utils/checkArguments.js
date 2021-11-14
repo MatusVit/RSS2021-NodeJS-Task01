@@ -9,19 +9,27 @@ const checkFile = (path) => {
   }
 };
 
+const checkConfig = (config) => {
+  const parsArray = config.split("-");
+  parsArray.forEach((arg) => {
+    if (!/^(C1|C0|R1|R0|A)$/.test(arg)) {
+      closeWithError(
+        'Invalid "config" option. The configuration must be a string with the {XY (-)} pattern. Please read the README.'
+      );
+    }
+  });
+};
+
 const checkArguments = ({ config, input, output }) => {
   // const { action, shift, input, output } = argv;
 
-  if (!config) {
+  if (config) {
+    checkConfig(config);
+  } else {
     closeWithError(
-      'Invalid option. Please, enter option "config" (--config or -c). '
+      'Invalid option. Please, enter option "config" (--config or -c).'
     );
   }
-
-  // todo check --config. Config is a string with pattern {XY(-)}n
-  // if (config !== 'encode' && action !== 'decode') {
-  //   closeWithError('Invalid option. "action" must be "encode" or "decode"');
-  // }
 
   if (input) {
     checkFile(input);
